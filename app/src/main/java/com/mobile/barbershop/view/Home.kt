@@ -23,7 +23,7 @@ class Home : AppCompatActivity() {
 
 
         val name = intent.extras?.getString("name")
-        binding.username.text = "Bem-vindo(a), $name"
+        binding.username.text = "Bem-vindo, $name"
 
         val recyclerViewServicos = binding.recyclerViewServicos
         recyclerViewServicos.layoutManager = GridLayoutManager(this, 2)
