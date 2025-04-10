@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/midnightblue"
+    android:background="@color/paleta3"
     tools:context=".view.Home">
 
     <TextView
@@ -64,8 +64,9 @@
         android:text="Agendar"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:drawableEnd="@drawable/baseline_arrow_right_alt_24"
-        android:backgroundTint="@color/alizarin"
+        android:backgroundTint="@color/paleta1"
         android:padding="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="100dp"
