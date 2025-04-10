@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".view.Registrar">
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
@@ -24,15 +28,10 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:src="@drawable/logobarber1"/>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="Cadastro"
                 android:textColor="#333333"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -48,7 +47,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <EditText
-                    android:id="@+id/editNome"
+                    android:id="@+id/emailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email"
@@ -68,7 +67,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <EditText
-                    android:id="@+id/editSenha"
+                    android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Senha"
@@ -78,32 +77,36 @@
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btLogin"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:layout_marginBottom="32dp"
+                app:boxBackgroundColor="#FFFFFF"
+                app:boxStrokeColor="#333333"
+                app:passwordToggleEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <EditText
+                    android:id="@+id/confirmPasswordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirme a Senha"
+                    android:inputType="textPassword"
+                    android:textColor="#333333"
+                    android:background="#FFFFFF"
+                    android:padding="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="REGISTRAR"
                 android:textColor="#FFFFFF"
                 android:background="#000000"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/createAccount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5sp"
-                android:layout_marginStart="40dp"
-                android:gravity="center"
-                android:linksClickable="true"
-                android:autoLink="all"
-                android:text="Não tem uma conta? Realizar cadastro"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btLogin" />
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
