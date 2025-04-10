@@ -22,18 +22,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="24dp"
+            android:background="@color/paleta3">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:src="@drawable/logobarber1"/>
+                android:src="@drawable/logo_dom_do_corte2"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Login"
-                android:textColor="#333333"
+                android:textColor="@color/paleta1"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -84,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:text="Login"
                 android:textColor="#FFFFFF"
-                android:background="#000000"
+                android:backgroundTint="@color/paleta1"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -99,7 +100,7 @@
                 android:linksClickable="true"
                 android:autoLink="all"
                 android:text="Não tem uma conta? Realizar cadastro"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btLogin" />

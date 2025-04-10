@@ -12,4 +12,10 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
+
+    <color name="paleta1">#cc9c4c</color>
+    <color name="paleta2">#eabf92</color>
+    <color name="paleta3">#14242c</color>
+    <color name="paleta4">#9e7b49</color>
+    <color name="paleta5">#dcccbc</color>
 </resources>
