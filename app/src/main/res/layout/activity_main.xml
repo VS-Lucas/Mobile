@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="24dp"
-            android:background="@color/paleta3">
+            android:background="@color/white">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Login"
-                android:textColor="@color/paleta1"
+                android:textColor="@color/paleta3"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:text="Login"
                 android:textColor="#FFFFFF"
-                android:backgroundTint="@color/paleta1"
+                android:backgroundTint="@color/paleta3"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:textStyle="bold" />
