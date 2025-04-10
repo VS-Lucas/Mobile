@@ -26,13 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="24dp"
+            android:background="@color/paleta3">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cadastro"
-                android:textColor="#333333"
+                android:textColor="@color/paleta1"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -103,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:text="REGISTRAR"
                 android:textColor="#FFFFFF"
-                android:background="#000000"
+                android:backgroundTint="@color/paleta1"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:textStyle="bold" />
