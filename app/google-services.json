@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "522194714979",
+    "project_id": "dom-do-corte",
+    "storage_bucket": "dom-do-corte.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522194714979:android:e0e28d335563a754581356",
+        "android_client_info": {
+          "package_name": "com.mobile.barbershop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZqhIhFGXOs252AXBskDJ5OqzbdQIwwz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
