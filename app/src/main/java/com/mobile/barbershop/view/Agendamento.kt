@@ -1,27 +1,29 @@
 package com.mobile.barbershop.view
 
+import AppointmentNotificationWorker
+import android.Manifest
 import android.content.Intent
-import android.os.Build
-import android.os.Bundle
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.os.*
 import android.view.View
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.work.*
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.barbershop.databinding.ActivityAgendamentoBinding
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
-import android.os.Handler
-import android.os.Looper
-import android.view.WindowManager
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class Agendamento : AppCompatActivity() {
 
     private lateinit var binding: ActivityAgendamentoBinding
-    val db = Firebase.firestore
+    private lateinit var db: FirebaseFirestore
     private lateinit var userId: String
 
     private var selectedDate: String = ""
@@ -39,6 +41,7 @@ class Agendamento : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
@@ -46,11 +49,13 @@ class Agendamento : AppCompatActivity() {
 
         binding = ActivityAgendamentoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        db = FirebaseFirestore.getInstance()
         userId = intent.getStringExtra("userId") ?: ""
 
-        binding.btnBack.setOnClickListener {
-            onBackPressed()
-        }
+        requestNotificationPermission()
+
+        binding.btnBack.setOnClickListener { onBackPressed() }
 
         setupServiceSpinner()
         setupTimeSpinner()
@@ -58,21 +63,26 @@ class Agendamento : AppCompatActivity() {
         setupSaveButton()
     }
 
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
+            }
+        }
+    }
+
     private fun setupServiceSpinner() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, services)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerService.adapter = adapter
 
-
         binding.spinnerService.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedService = services[position]
                 updateSelectedDateTimeText()
             }
 
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {
-
-            }
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
         }
     }
 
@@ -84,8 +94,7 @@ class Agendamento : AppCompatActivity() {
 
         val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
 
-        while (calendar.get(Calendar.HOUR_OF_DAY) < 18 ||
-            (calendar.get(Calendar.HOUR_OF_DAY) == 18 && calendar.get(Calendar.MINUTE) == 0)) {
+        while (calendar.get(Calendar.HOUR_OF_DAY) < 18 || (calendar.get(Calendar.HOUR_OF_DAY) == 18 && calendar.get(Calendar.MINUTE) == 0)) {
             timeSlots.add(formatter.format(calendar.time))
             calendar.add(Calendar.MINUTE, 30)
         }
@@ -95,20 +104,17 @@ class Agendamento : AppCompatActivity() {
         binding.spinnerTime.adapter = adapter
 
         binding.spinnerTime.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedTime = timeSlots[position]
                 updateSelectedDateTimeText()
             }
 
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {
-            }
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
         }
     }
 
     private fun setupCalendarView() {
-
         binding.calendarView.minDate = Calendar.getInstance().timeInMillis
-
 
         binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             selectedCalendarDate = Calendar.getInstance()
@@ -118,7 +124,6 @@ class Agendamento : AppCompatActivity() {
             selectedDate = dateFormat.format(selectedCalendarDate.time)
             updateSelectedDateTimeText()
         }
-
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         selectedDate = dateFormat.format(Calendar.getInstance().time)
@@ -155,8 +160,8 @@ class Agendamento : AppCompatActivity() {
                     binding.btnSaveAppointment.text = "Agendar"
                 }
             }
-            .addOnFailureListener { e ->
-                mensagem(binding.root, "Ocorreu um erro ao verificar disponibilidade", "#FF0000")
+            .addOnFailureListener {
+                mensagem(binding.root, "Erro ao verificar disponibilidade", "#FF0000")
                 binding.btnSaveAppointment.isEnabled = true
                 binding.btnSaveAppointment.text = "Agendar"
             }
@@ -173,11 +178,10 @@ class Agendamento : AppCompatActivity() {
 
         db.collection("appointments")
             .add(appointment)
-            .addOnSuccessListener { documentReference ->
-                val snackbar = Snackbar.make(binding.root, "Agendamento realizado com sucesso", Snackbar.LENGTH_SHORT)
-                snackbar.setBackgroundTint(android.graphics.Color.parseColor("#FF03DAC5"))
-                snackbar.setTextColor(android.graphics.Color.parseColor("#FFFFFF"))
-                snackbar.show()
+            .addOnSuccessListener {
+                mensagem(binding.root, "Agendamento realizado com sucesso", "#FF03DAC5")
+
+                scheduleAppointmentNotification()
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     val intent = Intent(this, Home::class.java)
@@ -188,23 +192,40 @@ class Agendamento : AppCompatActivity() {
                 binding.btnSaveAppointment.isEnabled = true
                 binding.btnSaveAppointment.text = "Agendar"
             }
-            .addOnFailureListener { e ->
-                mensagem(binding.root, "Ocorreu um erro ao agendar", "#FF0000")
+            .addOnFailureListener {
+                mensagem(binding.root, "Erro ao agendar", "#FF0000")
                 binding.btnSaveAppointment.isEnabled = true
                 binding.btnSaveAppointment.text = "Agendar"
             }
     }
 
-    private fun getCurrentUserId(): String? {
+    private fun scheduleAppointmentNotification() {
+        val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        val appointmentDateTime = formatter.parse("$selectedDate $selectedTime")
+
+        appointmentDateTime?.let {
+            val currentTime = System.currentTimeMillis()
+            val notificationTime = it.time - TimeUnit.MINUTES.toMillis(10) // 10 minutos antes
+            val delay = notificationTime - currentTime
+
+            if (delay > 0) {
+                val workRequest = OneTimeWorkRequestBuilder<AppointmentNotificationWorker>()
+                    .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                    .build()
+
+                WorkManager.getInstance(applicationContext).enqueue(workRequest)
+            }
+        }
+    }
+
+    private fun getCurrentUserId(): String {
         return userId
     }
 
     private fun mensagem(view: View, mensagem: String, cor: String) {
-        "#FF0000"
-        "#FF03DAC"
         val snackbar = Snackbar.make(view, mensagem, Snackbar.LENGTH_SHORT)
-        snackbar.setBackgroundTint(android.graphics.Color.parseColor(cor))
-        snackbar.setTextColor(android.graphics.Color.parseColor("#FFFFFF"))
+        snackbar.setBackgroundTint(Color.parseColor(cor))
+        snackbar.setTextColor(Color.WHITE)
         snackbar.show()
     }
 }
