@@ -40,6 +40,8 @@ class Registrar : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
                 if (password == confirmPassword) {
                     createUser(email, password)
+                } else if (password.length < 6) {
+                    showSnackbar(it, "A senha deve ter mais que 6 caracteres")
                 } else {
                     showSnackbar(it, "As senha não são compatíveis")
                 }
