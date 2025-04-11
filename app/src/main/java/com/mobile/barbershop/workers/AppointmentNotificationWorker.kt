@@ -33,7 +33,7 @@ class AppointmentNotificationWorker(
 
         val notification = NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("Agendamento Próximo!")
+            .setContentTitle("Dom do Corte")
             .setContentText("Seu agendamento está chegando. Fique atento!")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
