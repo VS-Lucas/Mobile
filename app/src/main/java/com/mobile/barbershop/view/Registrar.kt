@@ -5,20 +5,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.mobile.barbershop.MainActivity
-import com.mobile.barbershop.R
-import com.mobile.barbershop.adapter.ServicosAdapter
-import com.mobile.barbershop.databinding.ActivityHomeBinding
 import com.mobile.barbershop.databinding.ActivityRegistrarBinding
-import com.mobile.barbershop.models.Servicos
 
 class Registrar : AppCompatActivity() {
 
@@ -71,4 +63,5 @@ class Registrar : AppCompatActivity() {
             }
         }
     }
+
 }

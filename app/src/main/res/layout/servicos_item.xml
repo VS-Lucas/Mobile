@@ -1,43 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        >
-        <ImageView
-            android:id="@+id/imgServicos"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvAppointmentDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20/04/2023"
+            android:textColor="#2962FF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAppointmentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="14:30"
+            android:textColor="#2962FF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/tvAppointmentDate"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvServiceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Serviço:"
+            android:textColor="#757575"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAppointmentDate" />
+
+        <TextView
+            android:id="@+id/tvService"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="Corte de cabelo degradê"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvServiceLabel"
+            app:layout_constraintTop_toBottomOf="@+id/tvAppointmentDate" />
+
+        <TextView
+            android:id="@+id/tvBarberLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Barbeiro:"
+            android:textColor="#757575"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvServiceLabel" />
+
+        <TextView
+            android:id="@+id/tvBarber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:text="Carlos Silva"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvBarberLabel"
+            app:layout_constraintTop_toBottomOf="@+id/tvServiceLabel" />
+
+        <View
+            android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:src="@drawable/ic_launcher_background"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            />
-    </androidx.cardview.widget.CardView>
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="#E0E0E0"
+            app:layout_constraintTop_toBottomOf="@+id/tvBarberLabel" />
 
-    <TextView
-        android:id="@+id/txtServico"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Corte de Cabelo"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/status_background"
+            android:paddingStart="8dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="2dp"
+            android:text="Confirmado"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

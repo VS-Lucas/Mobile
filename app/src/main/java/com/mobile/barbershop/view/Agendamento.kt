@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
@@ -15,12 +14,15 @@ import java.util.Calendar
 import java.util.Locale
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import com.mobile.barbershop.view.Registrar
+import android.os.Handler
+import android.os.Looper
+import android.view.WindowManager
 
 class Agendamento : AppCompatActivity() {
 
     private lateinit var binding: ActivityAgendamentoBinding
     val db = Firebase.firestore
+    private lateinit var userId: String
 
     private var selectedDate: String = ""
     private var selectedTime: String = ""
@@ -37,8 +39,18 @@ class Agendamento : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.attributes.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
+
         binding = ActivityAgendamentoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userId = intent.getStringExtra("userId") ?: ""
+
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
 
         setupServiceSpinner()
         setupTimeSpinner()
@@ -127,11 +139,30 @@ class Agendamento : AppCompatActivity() {
     }
 
     private fun saveAppointmentToFirebase() {
-        // Show loading state
         binding.btnSaveAppointment.isEnabled = false
         binding.btnSaveAppointment.text = "Salvando..."
 
-        // Create appointment data
+        db.collection("appointments")
+            .whereEqualTo("date", selectedDate)
+            .whereEqualTo("time", selectedTime)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    saveNewAppointment()
+                } else {
+                    mensagem(binding.root, "Horário já agendado. Escolha outro horário.", "#FF0000")
+                    binding.btnSaveAppointment.isEnabled = true
+                    binding.btnSaveAppointment.text = "Agendar"
+                }
+            }
+            .addOnFailureListener { e ->
+                mensagem(binding.root, "Ocorreu um erro ao verificar disponibilidade", "#FF0000")
+                binding.btnSaveAppointment.isEnabled = true
+                binding.btnSaveAppointment.text = "Agendar"
+            }
+    }
+
+    private fun saveNewAppointment() {
         val appointment = hashMapOf(
             "service" to selectedService,
             "date" to selectedDate,
@@ -140,15 +171,22 @@ class Agendamento : AppCompatActivity() {
             "userId" to getCurrentUserId()
         )
 
-        // Save to Firebase
         db.collection("appointments")
             .add(appointment)
             .addOnSuccessListener { documentReference ->
-                mensagem(binding.root, "Agendamento realizado com sucesso", "#FF03DAC")
+                val snackbar = Snackbar.make(binding.root, "Agendamento realizado com sucesso", Snackbar.LENGTH_SHORT)
+                snackbar.setBackgroundTint(android.graphics.Color.parseColor("#FF03DAC5"))
+                snackbar.setTextColor(android.graphics.Color.parseColor("#FFFFFF"))
+                snackbar.show()
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    val intent = Intent(this, Home::class.java)
+                    intent.putExtra("userId", getCurrentUserId())
+                    startActivity(intent)
+                }, 1500)
+
                 binding.btnSaveAppointment.isEnabled = true
                 binding.btnSaveAppointment.text = "Agendar"
-                var intent = Intent(this, Home::class.java)
-                startActivity(intent)
             }
             .addOnFailureListener { e ->
                 mensagem(binding.root, "Ocorreu um erro ao agendar", "#FF0000")
@@ -157,10 +195,8 @@ class Agendamento : AppCompatActivity() {
             }
     }
 
-    private fun getCurrentUserId(): String {
-        // AJUSTAR PARA PEGAR O USER ID
-
-        return "user123"
+    private fun getCurrentUserId(): String? {
+        return userId
     }
 
     private fun mensagem(view: View, mensagem: String, cor: String) {

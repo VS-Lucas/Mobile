@@ -1,35 +1,47 @@
 package com.mobile.barbershop.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.barbershop.databinding.ServicosItemBinding
 import com.mobile.barbershop.models.Servicos
+import com.mobile.barbershop.R
 
-class ServicosAdapter(private val context: Context, private val listaServices: MutableList<Servicos>):
+class ServicosAdapter(
+    private var servicos: List<Servicos>,
+    private val onItemClick: (Servicos) -> Unit):
     RecyclerView.Adapter<ServicosAdapter.ServicosViewHolder>() {
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ServicosViewHolder {
-        val item = ServicosItemBinding.inflate(LayoutInflater.from(context), parent, false)
-        return ServicosViewHolder(item)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServicosViewHolder {
+        val binding = ServicosItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ServicosViewHolder(binding)
     }
 
-    override fun onBindViewHolder(
-        holder: ServicosViewHolder,
-        position: Int
-    ) {
-        holder.imgServico.setImageResource(listaServices[position].img!!)
-        holder.txtServico.text = listaServices[position].nome
+    override fun onBindViewHolder(holder: ServicosViewHolder, position: Int) {
+        holder.bind(servicos[position])
     }
 
-    override fun getItemCount() = listaServices.size
+    override fun getItemCount() = servicos.size
 
-    inner class ServicosViewHolder(binding: ServicosItemBinding): RecyclerView.ViewHolder(binding.root) {
-        val imgServico = binding.imgServicos
-        val txtServico = binding.txtServico
+    fun updateAppointments(newAppointments: List<Servicos>) {
+        servicos = newAppointments
+        notifyDataSetChanged()
+    }
+
+    inner class ServicosViewHolder(val binding: ServicosItemBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(appointment: Servicos) {
+            binding.apply {
+                tvAppointmentDate.text = appointment.date
+                tvAppointmentTime.text = appointment.time
+                tvService.text = appointment.service
+
+                root.setOnClickListener { onItemClick(appointment) }
+            }
+        }
     }
 
 }

@@ -57,8 +57,7 @@ class MainActivity : ComponentActivity() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d("DEBUG", "Login feito com sucesso")
-                val user = auth.currentUser
-                goToHome("Nome do cara")
+                goToHome()
             } else {
                 Log.d("DEBUG", "Erro ao fazer login", task.exception)
                 showSnackbar(binding.btLogin, "Email ou senha incorreto!")
@@ -73,9 +72,9 @@ class MainActivity : ComponentActivity() {
         snackbar.show()
     }
 
-    private fun goToHome(name: String) {
+    private fun goToHome() {
         val intent = Intent(this, Home::class.java)
-        intent.putExtra("name", name)
+        intent.putExtra("userId", auth.currentUser?.uid)
         startActivity(intent)
     }
 

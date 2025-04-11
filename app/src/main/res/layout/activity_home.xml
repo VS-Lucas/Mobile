@@ -5,77 +5,114 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/paleta3"
+    android:background="#FAFAFA"
+    android:fitsSystemWindows="true"
     tools:context=".view.Home">
 
-    <TextView
-        android:id="@+id/username"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bem vindo, Marcos"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <SearchView
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:queryHint="pesquisar..."
-        android:background="@color/white"
-        android:layout_margin="20dp"
-        app:layout_constraintTop_toBottomOf="@id/username"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:id="@+id/servicos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Todos os serviços"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="start"
-        android:layout_margin="20dp"
-        app:layout_constraintTop_toBottomOf="@id/search"
-        app:layout_constraintStart_toStartOf="parent"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Bem-vindo"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivUserProfile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivUserProfile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_background"
+                android:padding="8dp"
+                android:src="@drawable/ic_user"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="#FFFFFF" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutAppointmentsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeader">
+
+        <TextView
+            android:id="@+id/tvAppointmentsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agendamentos"
+            android:textColor="#333333"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/paleta3"
+            android:text="Agendar"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewServicos"
+        android:id="@+id/rvAppointments"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/servicos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <Button
-        android:id="@+id/btnAgendar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Agendar"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:drawableEnd="@drawable/baseline_arrow_right_alt_24"
-        android:backgroundTint="@color/paleta1"
-        android:padding="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewServicos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:clipToPadding="false"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/layoutAppointmentsHeader" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutAppointmentsHeader" />
+
+    <TextView
+        android:id="@+id/tvEmptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nenhum agendamento encontrado"
+        android:textColor="#757575"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutAppointmentsHeader" />
 </androidx.constraintlayout.widget.ConstraintLayout>
