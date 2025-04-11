@@ -55,7 +55,7 @@ class Agendamento : AppCompatActivity() {
 
         requestNotificationPermission()
 
-        binding.btnBack.setOnClickListener { onBackPressed() }
+        binding.btnBack.setOnClickListener { finish() }
 
         setupServiceSpinner()
         setupTimeSpinner()

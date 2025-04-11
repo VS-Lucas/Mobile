@@ -80,7 +80,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore")
 
-    implementation("androidx.startup:startup-runtime:1.3.0")
+    implementation("androidx.startup:startup-runtime:1.1.1")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
 
 }
