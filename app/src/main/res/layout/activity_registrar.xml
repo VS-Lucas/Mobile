@@ -6,7 +6,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".view.Registrar">
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Voltar"
+        android:padding="12dp"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.cardview.widget.CardView
@@ -27,13 +39,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="24dp"
-            android:background="@color/paleta3">
+            android:background="@color/white">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cadastro"
-                android:textColor="@color/paleta1"
+                android:textColor="@color/paleta3"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -104,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:text="REGISTRAR"
                 android:textColor="#FFFFFF"
-                android:backgroundTint="@color/paleta1"
+                android:backgroundTint="@color/paleta3"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:textStyle="bold" />
